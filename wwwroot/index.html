@@ -1,0 +1,129 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Smart Study Planner</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    /* Don't show the not-yet-loaded templates */
+    [ws-template], [ws-children-template] { display: none; }
+  </style>
+</head>
+<body class="bg-gray-100">
+
+  <!-- Navbar -->
+  <nav class="bg-white shadow-md">
+    <div class="max-w-7xl mx-auto px-4">
+      <div class="flex justify-between h-16">
+
+        <!-- Logo -->
+        <div class="flex items-center">
+            <span class="text-xl font-bold text-gray-800">Smart Study Planner</span>
+        </div>
+
+        <!-- Desktop Menu -->
+        <div class="hidden md:flex items-center space-x-6">
+            <a href="#" class="text-gray-700 hover:text-blue-600">Home</a>
+            <span class="text-gray-400">Planner</span>
+            <span class="text-gray-400">About</span>
+        </div>
+
+        <!-- Hamburger Button -->
+        <div class="md:hidden flex items-center">
+          <button id="menu-btn" class="text-gray-700 focus:outline-none">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M4 6h16M4 12h16M4 18h16" />
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Mobile Menu -->
+    <div id="mobile-menu" class="hidden md:hidden px-4 pb-4">
+        <a href="#" class="block py-2 text-gray-700 hover:text-blue-600">Home</a>
+        <span class="block py-2 text-gray-400">Planner</span>
+        <span class="block py-2 text-gray-400">About</span>
+    </div>
+  </nav>
+
+  <!-- Content -->
+  <main class="max-w-7xl mx-auto px-4 py-4">
+      <div ws-hole="Content">
+          <div class="space-y-4 animate-pulse">
+              <div class="h-4 bg-gray-300 rounded w-3/4"></div>
+              <div class="h-4 bg-gray-300 rounded w-1/2"></div>
+              <div class="h-32 bg-gray-300 rounded"></div>
+          </div>
+      </div>
+
+      <div ws-children-template="HomePageClient">
+          <section class="bg-white rounded-xl shadow-md p-8 space-y-6">
+              <div class="space-y-3">
+                  <h1 class="text-3xl font-bold text-gray-800">Smart Study Planner</h1>
+                  <p class="text-gray-600">
+                      A simple F# web application for planning study tasks, deadlines, and daily study effort.
+                  </p>
+              </div>
+
+              <div class="grid md:grid-cols-3 gap-4">
+                  <div class="bg-blue-50 rounded-lg p-4 border border-blue-100">
+                      <h2 class="text-lg font-semibold text-gray-800">Track tasks</h2>
+                      <p class="text-sm text-gray-600 mt-2">
+                          Add study tasks and keep your deadlines in one place.
+                      </p>
+                  </div>
+
+                  <div class="bg-green-50 rounded-lg p-4 border border-green-100">
+                      <h2 class="text-lg font-semibold text-gray-800">See remaining days</h2>
+                      <p class="text-sm text-gray-600 mt-2">
+                          Check how much time is left before each deadline.
+                      </p>
+                  </div>
+
+                  <div class="bg-yellow-50 rounded-lg p-4 border border-yellow-100">
+                      <h2 class="text-lg font-semibold text-gray-800">Plan daily effort</h2>
+                      <p class="text-sm text-gray-600 mt-2">
+                          Get a simple estimate for how much you should study each day.
+                      </p>
+                  </div>
+              </div>
+
+              <div class="border-t pt-4">
+                  <p class="text-sm text-gray-500">Version 1: initial project setup</p>
+                  <p class="text-sm text-gray-500">Status: under development</p>
+              </div>
+          </section>
+      </div>
+
+      <div ws-children-template="Form">
+          <input ws-var="Name" type="text" />
+          <p class="py-4">${Name}</p>
+          <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" ws-onclick="OnSubmit">Submit</button>
+      </div>
+
+      <div ws-children-template="PersonForm">
+          <input ws-var="FirstName" type="text" />
+          <input ws-var="LastName" type="text" />
+          <input ws-var="Age" type="text" />
+          <submit class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" ws-onclick="OnSubmit">Submit</submit>
+          <p class="text-red-500" ws-hole="Result"></p>
+      </div>
+
+      <!--<h1 class="text-3xl font-bold text-gray-800">Welcome</h1>
+    <p class="mt-4 text-gray-600">This is where our SPA will be.</p>-->
+  </main>
+
+  <script>
+    const btn = document.getElementById('menu-btn');
+    const menu = document.getElementById('mobile-menu');
+
+    btn.addEventListener('click', () => {
+      menu.classList.toggle('hidden');
+    });
+  </script>
+  <script type="module" src="Scripts/DUE-FSharp-SPASandbox-2026.min.js"></script>
+</body>
+</html>

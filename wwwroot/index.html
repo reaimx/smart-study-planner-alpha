@@ -1,144 +1,69 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Smart Study Planner</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <style>
-    /* Don't show the not-yet-loaded templates */
-    [ws-template], [ws-children-template] { display: none; }
-  </style>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Smart Study Planner</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        [ws-template], [ws-children-template] {
+            display: none;
+        }
+    </style>
 </head>
 <body class="bg-gray-100">
 
-  <!-- Navbar -->
-  <nav class="bg-white shadow-md">
-    <div class="max-w-7xl mx-auto px-4">
-      <div class="flex justify-between h-16">
+    <nav class="bg-white shadow-md">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <span class="text-xl font-bold text-gray-800">Smart Study Planner</span>
+                </div>
 
-        <!-- Logo -->
-        <div class="flex items-center">
-            <span class="text-xl font-bold text-gray-800">Smart Study Planner</span>
+                <div class="hidden md:flex items-center space-x-6">
+                    <a href="#" class="text-gray-700 hover:text-blue-600">Home</a>
+                    <span class="text-gray-400">Planner</span>
+                    <span class="text-gray-400">About</span>
+                </div>
+
+                <div class="md:hidden flex items-center">
+                    <button id="menu-btn" class="text-gray-700 focus:outline-none" type="button">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                  d="M4 6h16M4 12h16M4 18h16" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
         </div>
 
-        <!-- Desktop Menu -->
-        <div class="hidden md:flex items-center space-x-6">
-            <a href="#" class="text-gray-700 hover:text-blue-600">Home</a>
-            <span class="text-gray-400">Planner</span>
-            <span class="text-gray-400">About</span>
+        <div id="mobile-menu" class="hidden md:hidden px-4 pb-4">
+            <a href="#" class="block py-2 text-gray-700 hover:text-blue-600">Home</a>
+            <span class="block py-2 text-gray-400">Planner</span>
+            <span class="block py-2 text-gray-400">About</span>
         </div>
+    </nav>
 
-        <!-- Hamburger Button -->
-        <div class="md:hidden flex items-center">
-          <button id="menu-btn" class="text-gray-700 focus:outline-none">
-            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                d="M4 6h16M4 12h16M4 18h16" />
-            </svg>
-          </button>
+    <main class="max-w-7xl mx-auto px-4 py-4">
+        <div ws-hole="Content">
+            <div class="space-y-4 animate-pulse">
+                <div class="h-4 bg-gray-300 rounded w-3/4"></div>
+                <div class="h-4 bg-gray-300 rounded w-1/2"></div>
+                <div class="h-32 bg-gray-300 rounded"></div>
+            </div>
         </div>
-      </div>
-    </div>
+    </main>
 
-    <!-- Mobile Menu -->
-    <div id="mobile-menu" class="hidden md:hidden px-4 pb-4">
-        <a href="#" class="block py-2 text-gray-700 hover:text-blue-600">Home</a>
-        <span class="block py-2 text-gray-400">Planner</span>
-        <span class="block py-2 text-gray-400">About</span>
-    </div>
-  </nav>
+    <script>
+        const btn = document.getElementById('menu-btn');
+        const menu = document.getElementById('mobile-menu');
 
-  <!-- Content -->
-  <main class="max-w-7xl mx-auto px-4 py-4">
-      <div ws-hole="Content">
-          <div class="space-y-4 animate-pulse">
-              <div class="h-4 bg-gray-300 rounded w-3/4"></div>
-              <div class="h-4 bg-gray-300 rounded w-1/2"></div>
-              <div class="h-32 bg-gray-300 rounded"></div>
-          </div>
-      </div>
-
-      <div ws-children-template="HomePageClient">
-          <section class="bg-white rounded-xl shadow-md p-8 space-y-6">
-              <div class="space-y-3">
-                  <h1 class="text-3xl font-bold text-gray-800">Smart Study Planner</h1>
-                  <p class="text-gray-600">
-                      Add your study tasks for today and keep track of your learning progress.
-                  </p>
-              </div>
-
-              <div class="bg-gray-50 rounded-lg p-4 border border-gray-200 space-y-4">
-                  <h2 class="text-xl font-semibold text-gray-800">Study task list</h2>
-
-                  <div class="flex flex-col md:flex-row gap-3">
-                      <input ws-var="Name"
-                             type="text"
-                             placeholder="Enter a study task"
-                             class="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400" />
-                      <button ws-onclick="Add"
-                              class="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-5 py-2 rounded-lg">
-                          Add task
-                      </button>
-                  </div>
-
-                  <div class="space-y-2" ws-hole="ListContainer"></div>
-              </div>
-
-              <div class="grid md:grid-cols-3 gap-4">
-                  <div class="bg-blue-50 rounded-lg p-4 border border-blue-100">
-                      <h2 class="text-lg font-semibold text-gray-800">Track tasks</h2>
-                      <p class="text-sm text-gray-600 mt-2">
-                          Keep your current study tasks in one simple list.
-                      </p>
-                  </div>
-
-                  <div class="bg-green-50 rounded-lg p-4 border border-green-100">
-                      <h2 class="text-lg font-semibold text-gray-800">Stay focused</h2>
-                      <p class="text-sm text-gray-600 mt-2">
-                          Add one task at a time and build a daily learning routine.
-                      </p>
-                  </div>
-
-                  <div class="bg-yellow-50 rounded-lg p-4 border border-yellow-100">
-                      <h2 class="text-lg font-semibold text-gray-800">Plan ahead</h2>
-                      <p class="text-sm text-gray-600 mt-2">
-                          This project will later support deadlines and study planning.
-                      </p>
-                  </div>
-              </div>
-
-              <div class="border-t pt-4">
-                  <p class="text-sm text-gray-500">Version 2: basic study task list</p>
-                  <p class="text-sm text-gray-500">Status: in progress</p>
-              </div>
-          </section>
-      </div>
-
-      <div ws-children-template="Form">
-          <input ws-var="Name" type="text" />
-          <p class="py-4">${Name}</p>
-          <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" ws-onclick="OnSubmit">Submit</button>
-      </div>
-
-      <div ws-template="ListItem">
-          <div class="bg-white border border-gray-200 rounded-lg px-4 py-3 shadow-sm">
-              <span ws-hole="Name" class="text-gray-800"></span>
-          </div>
-      </div>
-
-      <!--<h1 class="text-3xl font-bold text-gray-800">Welcome</h1>
-    <p class="mt-4 text-gray-600">This is where our SPA will be.</p>-->
-  </main>
-
-  <script>
-    const btn = document.getElementById('menu-btn');
-    const menu = document.getElementById('mobile-menu');
-
-    btn.addEventListener('click', () => {
-      menu.classList.toggle('hidden');
-    });
-  </script>
-  <script type="module" src="Scripts/DUE-FSharp-SPASandbox-2026.min.js"></script>
+        if (btn && menu) {
+            btn.addEventListener('click', () => {
+                menu.classList.toggle('hidden');
+            });
+        }
+    </script>
+    <script type="module" src="Scripts/DUE-FSharp-SPASandbox-2026.min.js"></script>
 </body>
 </html>

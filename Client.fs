@@ -22,10 +22,10 @@ module Client =
     // and refresh your browser, no need to recompile unless you add or remove holes.
     type IndexTemplate = Template<"wwwroot/index.html", ClientLoad.FromDocument>
 
-    let People =
+    let StudyTasks =
         ListModel.FromSeq [
-            "John"
-            "Paul"
+            "Matematika gyakorlás"
+            "Hálózatok jegyzet átnézése"
         ]
 
     // Create a router for our endpoints
@@ -142,7 +142,7 @@ module Client =
 
     [<SPAEntryPoint>]
     let Main () =
-        let newName = Var.Create ""
+        let newTask = Var.Create ""
 
         let renderInnerPage (currentPage: Var<EndPoint>) =
             currentPage.View.Map (fun endpoint ->
@@ -166,17 +166,16 @@ module Client =
         IndexTemplate()
             .Content(
                 renderInnerPage currentPage
-                //client (...)
-                //hydrate (...)
             )
-            //.ListContainer(
-            //    People.View.DocSeqCached(fun (name: string) ->
-            //        IndexTemplate.ListItem().Name(name).Doc()
-            //    )
-            //)
-            //.Name(newName)
-            //.Add(fun e ->
-            //    People.Add(newName.Value)
-            //    newName.Value <- ""
-            //)
+            .ListContainer(
+                StudyTasks.View.DocSeqCached(fun (task: string) ->
+                    IndexTemplate.ListItem().Name(task).Doc()
+                )
+            )
+            .Name(newTask)
+            .Add(fun e ->
+                if newTask.Value.Trim() <> "" then
+                    StudyTasks.Add(newTask.Value)
+                    newTask.Value <- ""
+            )
             .Bind()

@@ -11,21 +11,26 @@
         }
     </style>
 </head>
-<body class="bg-gray-100">
+<body class="bg-gray-100 min-h-screen">
 
+    <!-- Navbar -->
     <nav class="bg-white shadow-md">
         <div class="max-w-7xl mx-auto px-4">
             <div class="flex justify-between h-16">
+
+                <!-- Logo -->
                 <div class="flex items-center">
                     <span class="text-xl font-bold text-gray-800">Smart Study Planner</span>
                 </div>
 
+                <!-- Desktop Menu -->
                 <div class="hidden md:flex items-center space-x-6">
                     <a href="#" class="text-gray-700 hover:text-blue-600">Home</a>
-                    <span class="text-gray-400">Planner</span>
-                    <span class="text-gray-400">About</span>
+                    <span class="text-gray-400 cursor-default">Planner</span>
+                    <span class="text-gray-400 cursor-default">About</span>
                 </div>
 
+                <!-- Hamburger Button -->
                 <div class="md:hidden flex items-center">
                     <button id="menu-btn" class="text-gray-700 focus:outline-none" type="button">
                         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -37,6 +42,7 @@
             </div>
         </div>
 
+        <!-- Mobile Menu -->
         <div id="mobile-menu" class="hidden md:hidden px-4 pb-4">
             <a href="#" class="block py-2 text-gray-700 hover:text-blue-600">Home</a>
             <span class="block py-2 text-gray-400">Planner</span>
@@ -44,7 +50,8 @@
         </div>
     </nav>
 
-    <main class="max-w-7xl mx-auto px-4 py-4">
+    <!-- Content -->
+    <main class="max-w-7xl mx-auto px-4 py-6">
         <div ws-hole="Content">
             <div class="space-y-4 animate-pulse">
                 <div class="h-4 bg-gray-300 rounded w-3/4"></div>
@@ -64,6 +71,7 @@
             });
         }
     </script>
+
     <script type="module" src="Scripts/DUE-FSharp-SPASandbox-2026.min.js"></script>
 </body>
 </html>

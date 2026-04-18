@@ -64,36 +64,53 @@
               <div class="space-y-3">
                   <h1 class="text-3xl font-bold text-gray-800">Smart Study Planner</h1>
                   <p class="text-gray-600">
-                      A simple F# web application for planning study tasks, deadlines, and daily study effort.
+                      Add your study tasks for today and keep track of your learning progress.
                   </p>
+              </div>
+
+              <div class="bg-gray-50 rounded-lg p-4 border border-gray-200 space-y-4">
+                  <h2 class="text-xl font-semibold text-gray-800">Study task list</h2>
+
+                  <div class="flex flex-col md:flex-row gap-3">
+                      <input ws-var="Name"
+                             type="text"
+                             placeholder="Enter a study task"
+                             class="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400" />
+                      <button ws-onclick="Add"
+                              class="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-5 py-2 rounded-lg">
+                          Add task
+                      </button>
+                  </div>
+
+                  <div class="space-y-2" ws-hole="ListContainer"></div>
               </div>
 
               <div class="grid md:grid-cols-3 gap-4">
                   <div class="bg-blue-50 rounded-lg p-4 border border-blue-100">
                       <h2 class="text-lg font-semibold text-gray-800">Track tasks</h2>
                       <p class="text-sm text-gray-600 mt-2">
-                          Add study tasks and keep your deadlines in one place.
+                          Keep your current study tasks in one simple list.
                       </p>
                   </div>
 
                   <div class="bg-green-50 rounded-lg p-4 border border-green-100">
-                      <h2 class="text-lg font-semibold text-gray-800">See remaining days</h2>
+                      <h2 class="text-lg font-semibold text-gray-800">Stay focused</h2>
                       <p class="text-sm text-gray-600 mt-2">
-                          Check how much time is left before each deadline.
+                          Add one task at a time and build a daily learning routine.
                       </p>
                   </div>
 
                   <div class="bg-yellow-50 rounded-lg p-4 border border-yellow-100">
-                      <h2 class="text-lg font-semibold text-gray-800">Plan daily effort</h2>
+                      <h2 class="text-lg font-semibold text-gray-800">Plan ahead</h2>
                       <p class="text-sm text-gray-600 mt-2">
-                          Get a simple estimate for how much you should study each day.
+                          This project will later support deadlines and study planning.
                       </p>
                   </div>
               </div>
 
               <div class="border-t pt-4">
-                  <p class="text-sm text-gray-500">Version 1: initial project setup</p>
-                  <p class="text-sm text-gray-500">Status: under development</p>
+                  <p class="text-sm text-gray-500">Version 2: basic study task list</p>
+                  <p class="text-sm text-gray-500">Status: in progress</p>
               </div>
           </section>
       </div>
@@ -104,12 +121,10 @@
           <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" ws-onclick="OnSubmit">Submit</button>
       </div>
 
-      <div ws-children-template="PersonForm">
-          <input ws-var="FirstName" type="text" />
-          <input ws-var="LastName" type="text" />
-          <input ws-var="Age" type="text" />
-          <submit class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" ws-onclick="OnSubmit">Submit</submit>
-          <p class="text-red-500" ws-hole="Result"></p>
+      <div ws-template="ListItem">
+          <div class="bg-white border border-gray-200 rounded-lg px-4 py-3 shadow-sm">
+              <span ws-hole="Name" class="text-gray-800"></span>
+          </div>
       </div>
 
       <!--<h1 class="text-3xl font-bold text-gray-800">Welcome</h1>

@@ -19,18 +19,45 @@ module Client =
         {
             Id: int
             Text: string
+            IsCompleted: bool
         }
 
-    let StudyTasks =
-        ListModel.Create (fun task -> task.Id) [
-            { Id = 1; Text = "Matematika gyakorlás" }
-            { Id = 2; Text = "Hálózatok jegyzet átnézése" }
+    let tasksVar =
+        Var.Create [
+            { Id = 1; Text = "Matematika gyakorlás"; IsCompleted = false }
+            { Id = 2; Text = "Hálózatok jegyzet átnézése"; IsCompleted = false }
         ]
 
     let nextTaskId = Var.Create 3
 
     let router = Router.Infer<EndPoint>()
     let currentPage = Router.InstallHash EndPoint.Home router
+
+    let addTask (taskText: string) =
+        let trimmedText = taskText.Trim()
+        if trimmedText <> "" then
+            let newTask =
+                {
+                    Id = nextTaskId.Value
+                    Text = trimmedText
+                    IsCompleted = false
+                }
+
+            tasksVar.Value <- tasksVar.Value @ [ newTask ]
+            nextTaskId.Value <- nextTaskId.Value + 1
+
+    let removeTask (taskId: int) =
+        tasksVar.Value <- tasksVar.Value |> List.filter (fun task -> task.Id <> taskId)
+
+    let toggleTask (taskId: int) =
+        tasksVar.Value <-
+            tasksVar.Value
+            |> List.map (fun task ->
+                if task.Id = taskId then
+                    { task with IsCompleted = not task.IsCompleted }
+                else
+                    task
+            )
 
     module Pages =
 
@@ -53,7 +80,7 @@ module Client =
                     ]
 
                     div [attr.``class`` "flex flex-col md:flex-row gap-3"] [
-                        Doc.Input [
+                        Doc.InputType.Text [
                             attr.``class`` "flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
                             attr.placeholder "Enter a study task"
                         ] newTask
@@ -61,14 +88,8 @@ module Client =
                         button [
                             attr.``class`` "bg-blue-600 hover:bg-blue-700 text-white font-semibold px-5 py-2 rounded-lg"
                             on.click (fun _ _ ->
-                                let taskText = newTask.Value.Trim()
-                                if taskText <> "" then
-                                    StudyTasks.Add {
-                                        Id = nextTaskId.Value
-                                        Text = taskText
-                                    }
-                                    nextTaskId.Value <- nextTaskId.Value + 1
-                                    newTask.Value <- ""
+                                addTask newTask.Value
+                                newTask.Value <- ""
                             )
                         ] [
                             text "Add task"
@@ -76,22 +97,52 @@ module Client =
                     ]
 
                     div [attr.``class`` "space-y-2"] [
-                        StudyTasks.View.DocSeqCached(fun task ->
-                            div [attr.``class`` "bg-white border border-gray-200 rounded-lg px-4 py-3 shadow-sm flex items-center justify-between gap-3"] [
-                                div [] [
-                                    text task.Text
-                                ]
+                        tasksVar.View
+                        |> View.Map (fun tasks ->
+                            tasks
+                            |> List.map (fun task ->
+                                let cardClass =
+                                    if task.IsCompleted then
+                                        "bg-gray-100 border border-gray-200 rounded-lg px-4 py-3 shadow-sm flex items-center justify-between gap-3 opacity-70"
+                                    else
+                                        "bg-white border border-gray-200 rounded-lg px-4 py-3 shadow-sm flex items-center justify-between gap-3"
 
-                                button [
-                                    attr.``class`` "bg-red-500 hover:bg-red-600 text-white font-semibold px-4 py-2 rounded-lg"
-                                    on.click (fun _ _ ->
-                                        StudyTasks.RemoveByKey task.Id
-                                    )
-                                ] [
-                                    text "Delete"
+                                let textClass =
+                                    if task.IsCompleted then
+                                        "text-gray-500 line-through"
+                                    else
+                                        "text-gray-800"
+
+                                div [attr.``class`` cardClass] [
+                                    div [attr.``class`` "flex items-center gap-3"] [
+                                        input (
+                                            [
+                                                attr.``type`` "checkbox"
+                                                on.change (fun _ _ ->
+                                                    toggleTask task.Id
+                                                )
+                                            ]
+                                            @ (if task.IsCompleted then [attr.``checked`` "checked"] else [])
+                                        ) []
+
+                                        span [attr.``class`` textClass] [
+                                            text task.Text
+                                        ]
+                                    ]
+
+                                    button [
+                                        attr.``class`` "bg-red-500 hover:bg-red-600 text-white font-semibold px-4 py-2 rounded-lg"
+                                        on.click (fun _ _ ->
+                                            removeTask task.Id
+                                        )
+                                    ] [
+                                        text "Delete"
+                                    ]
                                 ]
-                            ]
+                            )
+                            |> Doc.Concat
                         )
+                        |> Doc.EmbedView
                     ]
                 ]
 
@@ -126,7 +177,7 @@ module Client =
 
                 div [attr.``class`` "border-t pt-4"] [
                     p [attr.``class`` "text-sm text-gray-500"] [
-                        text "Version 3: task deletion"
+                        text "Version 4: task completion"
                     ]
                     p [attr.``class`` "text-sm text-gray-500"] [
                         text "Status: in progress"

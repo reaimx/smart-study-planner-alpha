@@ -15,11 +15,19 @@ module Client =
 
     type IndexTemplate = Template<"wwwroot/index.html", ClientLoad.FromDocument>
 
+    type StudyTask =
+        {
+            Id: int
+            Text: string
+        }
+
     let StudyTasks =
-        ListModel.FromSeq [
-            "Matematika gyakorlás"
-            "Hálózatok jegyzet átnézése"
+        ListModel.Create (fun task -> task.Id) [
+            { Id = 1; Text = "Matematika gyakorlás" }
+            { Id = 2; Text = "Hálózatok jegyzet átnézése" }
         ]
+
+    let nextTaskId = Var.Create 3
 
     let router = Router.Infer<EndPoint>()
     let currentPage = Router.InstallHash EndPoint.Home router
@@ -53,8 +61,13 @@ module Client =
                         button [
                             attr.``class`` "bg-blue-600 hover:bg-blue-700 text-white font-semibold px-5 py-2 rounded-lg"
                             on.click (fun _ _ ->
-                                if newTask.Value.Trim() <> "" then
-                                    StudyTasks.Add(newTask.Value)
+                                let taskText = newTask.Value.Trim()
+                                if taskText <> "" then
+                                    StudyTasks.Add {
+                                        Id = nextTaskId.Value
+                                        Text = taskText
+                                    }
+                                    nextTaskId.Value <- nextTaskId.Value + 1
                                     newTask.Value <- ""
                             )
                         ] [
@@ -64,8 +77,19 @@ module Client =
 
                     div [attr.``class`` "space-y-2"] [
                         StudyTasks.View.DocSeqCached(fun task ->
-                            div [attr.``class`` "bg-white border border-gray-200 rounded-lg px-4 py-3 shadow-sm"] [
-                                text task
+                            div [attr.``class`` "bg-white border border-gray-200 rounded-lg px-4 py-3 shadow-sm flex items-center justify-between gap-3"] [
+                                div [] [
+                                    text task.Text
+                                ]
+
+                                button [
+                                    attr.``class`` "bg-red-500 hover:bg-red-600 text-white font-semibold px-4 py-2 rounded-lg"
+                                    on.click (fun _ _ ->
+                                        StudyTasks.RemoveByKey task.Id
+                                    )
+                                ] [
+                                    text "Delete"
+                                ]
                             ]
                         )
                     ]
@@ -102,7 +126,7 @@ module Client =
 
                 div [attr.``class`` "border-t pt-4"] [
                     p [attr.``class`` "text-sm text-gray-500"] [
-                        text "Version 2: basic study task list"
+                        text "Version 3: task deletion"
                     ]
                     p [attr.``class`` "text-sm text-gray-500"] [
                         text "Status: in progress"

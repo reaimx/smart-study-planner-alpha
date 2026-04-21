@@ -248,9 +248,16 @@ module Client =
                             | None -> DateTime.MaxValue
                         )
                         |> List.map (fun task ->
+                            let isOverdue =
+                                match parseDeadline task.Deadline with
+                                | Some date -> (date.Date - System.DateTime.Today).Days < 0
+                                | None -> false
+
                             let cardClass =
                                 if task.IsCompleted then
                                     "bg-gray-100 border border-gray-200 rounded-lg px-4 py-3 shadow-sm flex flex-col md:flex-row md:items-center md:justify-between gap-3 opacity-70"
+                                elif isOverdue then
+                                    "bg-red-50 border border-red-200 rounded-lg px-4 py-3 shadow-sm flex flex-col md:flex-row md:items-center md:justify-between gap-3"
                                 else
                                     "bg-white border border-gray-200 rounded-lg px-4 py-3 shadow-sm flex flex-col md:flex-row md:items-center md:justify-between gap-3"
 
@@ -261,10 +268,11 @@ module Client =
                                     "text-gray-800"
 
                             div [attr.``class`` cardClass] [
-                                div [attr.``class`` "flex items-start gap-3"] [
+                                div [attr.``class`` "flex items-center gap-3"] [
                                     input (
                                         [
                                             attr.``type`` "checkbox"
+                                            attr.``class`` "w-4 h-4"
                                             on.change (fun _ _ ->
                                                 toggleTask task.Id
                                             )
@@ -276,11 +284,26 @@ module Client =
                                         p [attr.``class`` ("font-semibold " + textClass)] [
                                             text task.Text
                                         ]
-                                        p [attr.``class`` "text-sm text-gray-500"] [
-                                            text ("Deadline: " + task.Deadline)
-                                        ]
-                                        p [attr.``class`` "text-sm text-blue-600"] [
-                                            text (daysLeftText task.Deadline)
+                                        div [attr.``class`` "flex flex-wrap items-center gap-2"] [
+
+                                            span [attr.``class`` "text-xs font-medium bg-gray-100 text-gray-700 px-2 py-1 rounded"] [
+                                                text ("Due: " + task.Deadline)
+                                            ]
+
+                                            span [
+                                                attr.``class`` (
+                                                    "text-xs font-semibold px-2 py-1 rounded " +
+                                                    (match parseDeadline task.Deadline with
+                                                    | Some date when (date.Date - System.DateTime.Today).Days < 0 ->
+                                                        "bg-red-100 text-red-700"
+                                                    | Some date when (date.Date - System.DateTime.Today).Days <= 2 ->
+                                                        "bg-yellow-100 text-yellow-700"
+                                                    | _ ->
+                                                        "bg-blue-100 text-blue-700")
+                                                )
+                                            ] [
+                                                text (daysLeftText task.Deadline)
+                                            ]
                                         ]
                                     ]
                                 ]

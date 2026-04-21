@@ -195,6 +195,7 @@ module Client =
         let Planner () =
             let newTask = Var.Create ""
             let newDeadline = Var.Create ""
+            let errorMessage = Var.Create ""
 
             div [attr.``class`` "bg-white rounded-xl shadow-md p-8 space-y-6"] [
                 div [attr.``class`` "space-y-3"] [
@@ -224,15 +225,39 @@ module Client =
                         button [
                             attr.``class`` "bg-blue-600 hover:bg-blue-700 text-white font-semibold px-5 py-2 rounded-lg"
                             on.click (fun _ _ ->
-                                addTask newTask.Value newDeadline.Value
-                                newTask.Value <- ""
-                                newDeadline.Value <- ""
-                            )
+
+                                let trimmedText = newTask.Value.Trim()
+                                let trimmedDeadline = newDeadline.Value.Trim()
+
+                                let exists =
+                                    tasksVar.Value
+                                    |> List.exists (fun t ->
+                                    t.Text = trimmedText && t.Deadline = trimmedDeadline
+                                 )
+
+                                if trimmedText = "" || trimmedDeadline = "" then
+                                    errorMessage.Value <- "Please fill all fields"
+                                elif exists then
+                                    errorMessage.Value <- "This task already exists"
+                                else
+                                    addTask trimmedText trimmedDeadline
+                                    errorMessage.Value <- ""
+                                    newTask.Value <- ""
+                                    newDeadline.Value <- ""
+)
                         ] [
                             text "Add task"
                         ]
                     ]
                 ]
+
+                Doc.BindView (fun msg ->
+                    if msg = "" then Doc.Empty
+                    else
+                        div [attr.``class`` "text-red-500 text-sm mt-2"] [
+                            text msg
+                        ]
+                ) errorMessage.View
 
                 div [attr.``class`` "space-y-3"] [
                     h2 [attr.``class`` "text-xl font-semibold text-gray-800"] [

@@ -7,7 +7,7 @@ A simple web-based study planner application built with F# and WebSharper.
 👉 https://github.com/reaimx/smart-study-planner-alpha
 
 # Live demo:
-https://reaimx.github.io/smart-study-planner-alpha/#/
+👉 https://reaimx.github.io/smart-study-planner-alpha/#/
 
 
 ## 📌 Description

@@ -15,6 +15,10 @@ A simple web-based study planner application built with F# and WebSharper.
 Smart Study Planner is a single-page web application that helps users manage their study tasks and track deadlines.  
 Users can add tasks, assign deadlines, mark them as completed, and view the most urgent tasks.
 
+## 🎯 Motivation
+
+This project was created as part of a university assignment to practice building single-page web applications using F# and WebSharper.
+
 ## 🚀 Features
 
 - Add study tasks
@@ -33,6 +37,17 @@ Users can add tasks, assign deadlines, mark them as completed, and view the most
 - ASP.NET Core
 - Tailwind CSS
 
+## ⚙️ How to Run
+
+### Prerequisites
+- .NET SDK (version 9.0 or later)
+
+### Run locally
+
+dotnet run
+
+After running the project, open the URL shown in the terminal (e.g. http://localhost:xxxx)
+
 ## 📸 Screenshots
 
 ### Home page
@@ -40,3 +55,4 @@ Users can add tasks, assign deadlines, mark them as completed, and view the most
 
 ### Planner page
 ![Planner](screenshots/planner.jpg)
+

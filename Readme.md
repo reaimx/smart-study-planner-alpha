@@ -2,6 +2,14 @@
 
 A simple web-based study planner application built with F# and WebSharper.
 
+
+## 📂 Repository
+👉 https://github.com/reaimx/smart-study-planner-alpha
+
+# Live demo:
+https://reaimx.github.io/smart-study-planner-alpha/#/
+
+
 ## 📌 Description
 
 Smart Study Planner is a single-page web application that helps users manage their study tasks and track deadlines.  
@@ -24,11 +32,6 @@ Users can add tasks, assign deadlines, mark them as completed, and view the most
 - WebSharper
 - ASP.NET Core
 - Tailwind CSS
-
-# Smart Study Planner
-
-Live demo:
-https://reaimx.github.io/smart-study-planner-alpha/#/
 
 ## 📸 Screenshots
 

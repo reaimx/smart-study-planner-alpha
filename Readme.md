@@ -16,10 +16,7 @@ Users can add tasks, assign deadlines, mark them as completed, and view the most
 - Automatic sorting by deadline
 - "Most urgent tasks" overview on the Home page
 - Summary statistics (total, active, completed tasks)
-- Multiple pages:
-  - Home (overview)
-  - Planner (task management)
-  - About (project information)
+
 
 ## 🛠 Technologies
 

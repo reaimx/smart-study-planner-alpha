@@ -25,14 +25,10 @@ Users can add tasks, assign deadlines, mark them as completed, and view the most
 - ASP.NET Core
 - Tailwind CSS
 
-## ▶️ How to run
+# Smart Study Planner
 
-1. Open the project in a terminal
-2. Run the following command:
-	
-	dotnet run
-
-3. Open the URL shown in the console (e.g. `http://localhost:xxxx`)
+Live demo:
+https://reaimx.github.io/smart-study-planner-alpha/#/
 
 ## 📸 Screenshots
 
